@@ -1,0 +1,9 @@
+- hosts: all
+  user: root
+  vars:
+  tasks:
+    - name: stop memcached
+      service: name=memcached state=stopped
+    - name: remove memcached
+      command: rpm -e memcached --nodeps
+

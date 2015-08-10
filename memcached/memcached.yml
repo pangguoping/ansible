@@ -1,0 +1,16 @@
+- hosts: all
+  user: root
+
+  tasks:
+    - name: install memcached
+      yum: name=memcached state=installed
+    - name: set memcached size
+      set_fact: memcached_size="{{ansible_memtotal_mb/4}}"
+    - name: copy configurations
+      template: src=templates/memcached.j2 dest=/etc/sysconfig/memcached
+      notify:
+        - restart memcached
+
+  handlers:
+    - name: restart memcached
+      service: name=memcached state=restarted enabled=yes
